@@ -2,7 +2,7 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm, DocForm
-from app.docSectionsExtractor import SectionsExtractor
+from app.mainbaseapp import MainBaseApp
 from flask_login import current_user, login_user
 from app.models import User
 from flask_login import logout_user
@@ -65,6 +65,8 @@ def register():
 @app.route('/sectionsextract', methods=['GET', 'POST'])
 @login_required
 def sectionsextract():
+    """ Adapt to your functionality
+    """
     form = DocForm()
     if form.validate_on_submit():
 
@@ -73,12 +75,12 @@ def sectionsextract():
         # doc = form.document.data
         doc = '01.txt'
         training_dir = training_dir + os.sep
-        dse = SectionsExtractor(training_dir, doc)
-        content = dse.extract()
+        mba = MainBaseApp(training_dir, doc)
+        content = mba.extract()
 
         flash('Document Section Extracted for  document {}, content {}'.format(
              form.doc.data, content))
         # return redirect(url_for('index'))
 
-        return render_template('sectionsextract.html', title='Document Sections Extractor', form=form)
-    return render_template('sectionsextract.html', title='Document Sections Extractor', form=form)
+        return render_template('qndbaseapp.html', title='Document Sections Extractor', form=form)
+    return render_template('qndbaseapp.html', title='Document Sections Extractor', form=form)
